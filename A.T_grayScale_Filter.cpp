@@ -1,3 +1,5 @@
+#include "Image_Class.h"
+using namespace std;
 void grayScale(Image &image)
 {
     for (int x = 0; x < image.width; x++)
