@@ -12,7 +12,7 @@ void flip(Image &image)
 
     Image flipped(image.width, image.height);
 
-    for (int x = 0; x < image.width; x++)
+ for (int x = 0; x < image.width; x++)
     {
         for (int y = 0; y < image.height; y++)
         {

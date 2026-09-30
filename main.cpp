@@ -1,17 +1,15 @@
 # include <iostream>
 # include "Image_Class.h"
 using namespace std;
-#include "invert.cpp"
+#include "HS_black&white_filter.cpp"
+#include "HS_rotate.cpp"
+
+
+
 int main()
 {
-  Image img("mario.jpg");
-  invert(img);
-
-  img.saveImage("inverted_mario.jpg");
-
-
-
-
-
+    Image img("skeleton.jpg");
+    rotate(img);
+    img.saveImage("output.png");
 
 }
