@@ -1,3 +1,7 @@
+#include "Image_Class.h"
+#include <iostream>
+using namespace std;
+
 void flip(Image &image)
 {
     int choice;

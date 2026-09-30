@@ -1,8 +1,17 @@
 # include <iostream>
 # include "Image_Class.h"
 using namespace std;
-
+#include "invert.cpp"
 int main()
 {
-  cout<<"hassan" << endl;
+  Image img("mario.jpg");
+  invert(img);
+
+  img.saveImage("inverted_mario.jpg");
+
+
+
+
+
+
 }
