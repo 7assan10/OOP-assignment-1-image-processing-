@@ -14,6 +14,7 @@ Ahmed Alaa               20250825            S29-S30           frame, blur
 */
 #include "Image_Class.h"
 #include <iostream>
+#include <vector>
 #include <string>
 using namespace std;
 //-------------------------------Menu-------------------------------------//
@@ -29,7 +30,9 @@ void showMenu()
     cout << "8. Add Frame\n";
     cout << "9. Blur Effect\n";
     cout << "10. Resize Image\n";
-    cout << "11. Save\n";
+    cout << "11. Infrared\n";
+    cout << "12. Oil Paint\n";
+    cout << "13. Save\n";
     cout << "0. Exit\n";
 }
 //-------------------------------Save-------------------------------------//
@@ -469,7 +472,7 @@ void blur(Image &image)
 //-------------------------------Resize Image-------------------------------------//
 void resizeImage_filter(Image &image)
 {
-    int choice, newWidth, newHeight;
+    double choice, newWidth, newHeight;
     cout << "Choose the preferred resize method: \n";
     cout << "1. Enter new dimensions\n";
     cout << "2. Enter resize ratio\n";
@@ -512,6 +515,98 @@ void resizeImage_filter(Image &image)
         }
     }
     image = newImage;
+}
+//-------------------------------Infrared-------------------------------------//
+void infrared(Image &image)
+{
+    for( int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            double r = image(i, j, 0);
+            double g = image(i, j, 1);
+            double b = image(i, j, 2);
+            
+            double lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+            if (lum <= 128)
+            {
+                image(i, j, 0) = 255; 
+                image(i, j, 1) = 197; 
+                image(i, j, 2) = 211; 
+            }
+            else
+            {
+                image(i, j, 0) = 210;
+                image(i, j, 1) = 0;
+                image(i, j, 2) = 0;
+            }
+        }
+    }
+}
+//-------------------------------Oil Paint-------------------------------------// 
+void oilPaint(Image &image)
+{
+    int size = 1;
+    int number_of_groups = 20;
+ 
+    Image original = image;
+ 
+    for (int i = 0; i < image.height; i++)
+    {
+        for (int j = 0; j < image.width; j++)
+        {
+            vector<int> groupCount(number_of_groups, 0);
+            vector<int> redTotal(number_of_groups, 0);
+            vector<int> greenTotal(number_of_groups, 0);
+            vector<int> blueTotal(number_of_groups, 0);
+ 
+            for (int ichange = -size; ichange <= size; ichange++)
+            {
+                for (int jchange = -size; jchange <= size; jchange++)
+                {
+                    int neighborj = j + jchange;
+                    int neighbori = i + ichange;
+ 
+                    if (neighborj < 0 || neighborj >= image.width ||
+                        neighbori < 0 || neighbori >= image.height)
+                    {
+                        continue;
+                    }
+ 
+                    int R   = original(neighborj, neighbori, 0);
+                    int G = original(neighborj, neighbori, 1);
+                    int B  = original(neighborj, neighbori, 2);
+ 
+                    int brightness = (R + G + B) / 3;
+ 
+                    int group = brightness * number_of_groups / 256;
+ 
+                    groupCount[group]++;
+                    redTotal[group]   += R;
+                    greenTotal[group] += G;
+                    blueTotal[group]  += B;
+                }
+            }
+ 
+            int maxGroup = 0;
+            for (int group = 1; group < number_of_groups; group++)
+            {
+                if (groupCount[group] > groupCount[maxGroup])
+                {
+                    maxGroup = group;
+                }
+            }
+ 
+            int newR   = redTotal[maxGroup]   / groupCount[maxGroup];
+            int newG = greenTotal[maxGroup] / groupCount[maxGroup];
+            int newB  = blueTotal[maxGroup]  / groupCount[maxGroup];
+ 
+            image(j, i, 0) = newR;
+            image(j, i, 1) = newG;
+            image(j, i, 2) = newB;
+        }
+    }
 }
 int main()
 {
@@ -608,9 +703,22 @@ int main()
         {
             resizeImage_filter(image);
         }
+            //-------------------------------Flip-------------------------------------//
+
+            case 11:
+        {
+            infrared(image);
+        }
+            //-------------------------------Oil Paint-------------------------------------//
+
+           case 12:
+        {
+            oilPaint(image);
+        }
+
             //-------------------------------Save-------------------------------------//
 
-        case 11:
+        case 13:
         {
             saveImageFunction(image);
         }
