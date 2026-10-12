@@ -2,15 +2,15 @@
 /*
 Student Name:              id                section                 filters
 
-Ahmed Tarek               20250034            S29-S30           5 -> grayscale, flip, merge, sunlight, skew
+Ahmed Tarek               20250034            S29-S30           grayscale, flip, merge, sunlight, skew, menu
 
-Hassan Sayed              20250818            S29-S30           4 -> rotate, black_white, edge, tv
+Hassan Sayed              20250818            S29-S30           rotate, black_white, edge, tv
 
-Abdelrahman Hamada        20250822            S29-S30           4 -> invert, darken/lighten, crop, purple
+Abdelrahman Hamada        20250822            S29-S30           invert, darken/lighten, crop, purple
 
-Ahmed Alaa                20250825            S29-S30           5 -> frame, blur, infrared, resize, oilPaint
+Ahmed Alaa                20250825            S29-S30           frame, blur, infrared, resize, oilPaint
 */
-#include "Filters.h"
+#include "Image_Class.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -37,7 +37,8 @@ void showMenu()
     cout << "16. Oil Paint\n";
     cout << "17. Purple Filter\n";
     cout << "18. Crop\n";
-    cout << "19. Save\n";
+    cout << "19. Resize Image\n";
+    cout << "20. Save\n";
     cout << "0. Exit\n";
 }
 //-------------------------------Save-------------------------------------//
@@ -856,7 +857,53 @@ void crop(Image &image)
     }
     image = cropped;
 }
+//-------------------------------Resize-------------------------------------//
+void resizeImage_filter(Image &image)
+{
+    int choice, newWidth, newHeight;
+    cout << "Choose the preferred resize method: \n";
+    cout << "1. Enter new dimensions\n";
+    cout << "2. Enter resize ratio\n";
+    cin >> choice;
+    
+    if (choice == 1)
+    {
+        cout << "Enter new width: ";
+        cin >> newWidth;
 
+        cout << "Enter new height: ";
+        cin >> newHeight;
+    }
+    else if (choice == 2)
+    {
+        double ratio;
+        cout << "Enter resize ratio: ";
+        cin >> ratio;
+
+        newWidth = image.width * ratio;
+        newHeight = image.height * ratio;
+    }
+    else
+    {
+        cout << "Invalid choice.\n";
+    }
+
+    Image newImage(newWidth, newHeight);
+
+    for (int i = 0; i < newWidth; i++)
+    {
+        for (int j = 0; j < newHeight; j++)
+        {
+            int oldI = i * image.width / newWidth;
+            int oldJ = j * image.height / newHeight;
+            for (int k = 0; k < image.channels; k++)
+            {
+                newImage(i, j, k) = image(oldI, oldJ, k);
+            }
+        }
+    }
+    image = newImage;
+}
 int main()
 {
     string fileName;
@@ -1008,8 +1055,15 @@ int main()
         }
         break;
 
-        //-------------------------------save-------------------------------------//
+        //-------------------------------crop-------------------------------------//
         case 19:
+        {
+            resizeImage_filter(image);
+        }
+        break;
+
+        //-------------------------------save-------------------------------------//
+        case 20:
         {
             saveImageFunction(image);
         }

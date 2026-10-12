@@ -47,3 +47,4 @@ void resizeImage_filter(Image &image)
         }
     }
     image = newImage;
+}
