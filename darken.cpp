@@ -3,7 +3,7 @@
 using namespace std;
 
 
-void Darken(Image &img)
+void darken(Image &img)
 {
   int choice;
     cout << "1.darkness"<< endl;

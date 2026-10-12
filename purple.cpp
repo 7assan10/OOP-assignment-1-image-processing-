@@ -17,7 +17,11 @@ void purple(Image &image)
                                     if (image(x, y, k)>255){
                                                                             value = 255;
                                             
+<<<<<<< Updated upstream
                                      } 
+=======
+                                    } 
+>>>>>>> Stashed changes
 
                 }
                 
