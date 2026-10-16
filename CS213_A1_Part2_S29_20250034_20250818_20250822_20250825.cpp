@@ -9,6 +9,11 @@ Hassan Sayed              20250818            S29-S30           rotate, black_wh
 Abdelrahman Hamada        20250822            S29-S30           invert, darken/lighten, crop, purple
 
 Ahmed Alaa                20250825            S29-S30           frame, blur, infrared, resize, oilPaint
+
+
+Link to the drive that has the Demo video and the Shared Document: 
+
+https://drive.google.com/drive/folders/1uVH_Bh7axKPKpjsVfUtXR6SxmtLH5Awn?usp=drive_link
 */
 #include "Image_Class.h"
 #include <iostream>
@@ -52,8 +57,6 @@ void saveImageFunction(Image &image)
 }
 //--------------------------------------------------------------------------------------------
 
-
-
 //-------------------------------1.grayScale-----------------------------------------//
 void grayScale(Image &image)
 {
@@ -76,7 +79,7 @@ void grayScale(Image &image)
 }
 //-------------------------------2.flip------------------------------------//
 void flip(Image &image)
-{
+{ 
     int choice;
     cout << "\n1. Horizontal Flip\n";
     cout << "2. Vertical Flip\n";
@@ -109,7 +112,6 @@ void flip(Image &image)
 //-------------------------------3.black_white------------------------------------//
 void black_white(Image &image)
 {
-
     for (int x = 0; x < image.width; x++)
     {
         for (int y = 0; y < image.height; y++)
